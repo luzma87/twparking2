@@ -1,5 +1,6 @@
 {
   "name": "MontoAdicional",
+  "plural": "MontosAdicionales",
   "options": {
     "idInjection": false,
     "postgresql": {

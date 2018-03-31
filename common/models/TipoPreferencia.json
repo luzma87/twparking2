@@ -1,5 +1,6 @@
 {
   "name": "TipoPreferencia",
+  "plural": "TiposPreferencias",
   "options": {
     "idInjection": false,
     "postgresql": {

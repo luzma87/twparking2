@@ -1,5 +1,6 @@
 {
   "name": "DistanciaEdificio",
+  "plural": "DistanciasEdificios",
   "options": {
     "idInjection": false,
     "postgresql": {

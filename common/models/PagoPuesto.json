@@ -1,5 +1,6 @@
 {
   "name": "PagoPuesto",
+  "plural": "PagosPuestos",
   "options": {
     "idInjection": false,
     "postgresql": {
