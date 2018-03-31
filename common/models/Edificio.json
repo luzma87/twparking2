@@ -105,6 +105,11 @@
       "model": "DistanciaEdificio",
       "type": "belongsTo",
       "foreignKey": "distanciaEdificioId"
+    },
+    "puestos": {
+      "model": "Puesto",
+      "type": "hasMany",
+      "foreignKey": "edificioId"
     }
   }
 }
