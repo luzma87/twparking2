@@ -32,6 +32,7 @@ function task_start {
 }
 
 function task_start_db_debug {
+  # https://loopback.io/doc/en/lb2/Setting-debug-strings.html
   echo "${start_fg}Starting app showing postgres debug info${normal_fg}"
   DEBUG=*postgresql node .
 }
