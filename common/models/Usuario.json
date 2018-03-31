@@ -133,8 +133,8 @@
   "relations": {
     "preferencia": {
       "model": "TipoPreferencia",
-      "type": "belongsTo",
-      "foreignKey": "tipoPreferenciaId"
+      "type": "hasOne",
+      "foreignKey": "id"
     },
     "autos": {
       "model": "Auto",
