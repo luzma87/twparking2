@@ -1,15 +1,15 @@
 'use strict';
 
-module.exports = function (Auto) {
-  Auto.disableRemoteMethodByName("deleteById");
+module.exports = (Auto) => {
+  Auto.disableRemoteMethodByName('deleteById');
 
-  Auto.status = function (cb) {
-    var currentDate = new Date();
-    var currentHour = currentDate.getHours();
-    var OPEN_HOUR = 6;
-    var CLOSE_HOUR = 20;
+  Auto.status = (cb) => {
+    let currentDate = new Date();
+    let currentHour = currentDate.getHours();
+    let OPEN_HOUR = 6;
+    let CLOSE_HOUR = 20;
     console.log('Current hour is %d', currentHour);
-    var response;
+    let response;
     if (currentHour >= OPEN_HOUR && currentHour < CLOSE_HOUR) {
       response = 'We are open for business.';
     } else {
@@ -18,9 +18,9 @@ module.exports = function (Auto) {
     cb(null, response);
   };
 
-  Auto.getName = function (carId, cb) {
-    Auto.findById(carId, function (err, instance) {
-      var response = "Car is " + instance.marca + " " + instance.modelo + " " + instance.placa;
+  Auto.getName = (carId, cb) => {
+    Auto.findById(carId, function(err, auto) {
+      let response = `Car is ${auto.marca} ${auto.modelo} ${auto.placa}`;
       cb(null, response);
       console.log(response);
     });
@@ -29,17 +29,17 @@ module.exports = function (Auto) {
   Auto.remoteMethod(
     'getName', {
       description: ["This is a remote method's description :D",
-        "This is description line 2"],
+        'This is description line 2'],
       notes: ["This is a remote method's notes :D",
-        "This is notes line 2"],
+        'This is notes line 2'],
       http: {
         path: '/getName',
-        verb: 'get'
+        verb: 'get',
       },
       accepts: {
-        arg: 'id', type: 'string', http: {source: 'query'}
+        arg: 'id', type: 'string', http: {source: 'query'},
       },
-      returns: {arg: 'name', type: 'string'}
+      returns: {arg: 'name', type: 'string'},
     }
   );
 
@@ -47,12 +47,12 @@ module.exports = function (Auto) {
     'status', {
       http: {
         path: '/status',
-        verb: 'get'
+        verb: 'get',
       },
       returns: {
         arg: 'status',
-        type: 'string'
-      }
+        type: 'string',
+      },
     }
   );
 };

@@ -1,5 +1,5 @@
 'use strict';
 
-module.exports = function(Pago) {
-  Pago.disableRemoteMethodByName("deleteById");
+module.exports = (Pago) => {
+  Pago.disableRemoteMethodByName('deleteById');
 };

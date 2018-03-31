@@ -1,5 +1,5 @@
 'use strict';
 
-module.exports = function(Cobro) {
-  Cobro.disableRemoteMethodByName("deleteById");
+module.exports = (Cobro) => {
+  Cobro.disableRemoteMethodByName('deleteById');
 };

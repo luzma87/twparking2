@@ -1,5 +1,5 @@
 'use strict';
 
-module.exports = function(Auto) {
-  Auto.disableRemoteMethodByName("deleteById");
+module.exports = (Auto) => {
+  Auto.disableRemoteMethodByName('deleteById');
 };

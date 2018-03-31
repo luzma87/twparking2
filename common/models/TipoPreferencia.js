@@ -1,5 +1,5 @@
 'use strict';
 
-module.exports = function(TipoPreferencia) {
-  TipoPreferencia.disableRemoteMethodByName("deleteById");
+module.exports = (TipoPreferencia) => {
+  TipoPreferencia.disableRemoteMethodByName('deleteById');
 };

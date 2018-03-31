@@ -1,5 +1,5 @@
 'use strict';
 
-module.exports = function(Puesto) {
-  Puesto.disableRemoteMethodByName("deleteById");
+module.exports = (Puesto) => {
+  Puesto.disableRemoteMethodByName('deleteById');
 };

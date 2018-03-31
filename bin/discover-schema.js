@@ -1,11 +1,13 @@
-var path = require('path');
+'use strict';
 
-var app = require(path.resolve(__dirname, '../server/server'));
-var ds = app.datasources.twparking;
+let path = require('path');
+
+let app = require(path.resolve(__dirname, '../server/server'));
+let ds = app.datasources.twparking;
 ds.discoverSchema('auto', {schema: 'public'}, function(err, schema) {
   if (err) throw err;
 
-  var json = JSON.stringify(schema, null, '  ');
+  let json = JSON.stringify(schema, null, '  ');
   console.log(json);
 
   ds.disconnect();

@@ -1,5 +1,5 @@
 'use strict';
 
-module.exports = function(TipoTransicion) {
-  TipoTransicion.disableRemoteMethodByName("deleteById");
+module.exports = (TipoTransicion) => {
+  TipoTransicion.disableRemoteMethodByName('deleteById');
 };
