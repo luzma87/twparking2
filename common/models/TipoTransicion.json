@@ -1,0 +1,100 @@
+{
+  "name": "TipoTransicion",
+  "options": {
+    "idInjection": false,
+    "postgresql": {
+      "schema": "public",
+      "table": "tipo_transicion"
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": 0,
+      "id": 1,
+      "postgresql": {
+        "columnName": "id",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": 0,
+        "nullable": "NO"
+      }
+    },
+    "distanciaEdificioDestinoId": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": 0,
+      "postgresql": {
+        "columnName": "distancia_edificio_destino_id",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": 0,
+        "nullable": "NO"
+      }
+    },
+    "distanciaEdificioOrigenId": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": 0,
+      "postgresql": {
+        "columnName": "distancia_edificio_origen_id",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": 0,
+        "nullable": "NO"
+      }
+    },
+    "nombre": {
+      "type": "String",
+      "required": true,
+      "length": 30,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "nombre",
+        "dataType": "character varying",
+        "dataLength": 30,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "prioridad": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": 0,
+      "postgresql": {
+        "columnName": "prioridad",
+        "dataType": "integer",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": 0,
+        "nullable": "NO"
+      }
+    }
+  },
+  "relations": {
+    "distancia1": {
+      "model": "DistanciaEdificio",
+      "type": "belongsTo",
+      "foreignKey": "distanciaEdificioOrigenId"
+    },
+    "distancia2": {
+      "model": "DistanciaEdificio",
+      "type": "belongsTo",
+      "foreignKey": "distanciaEdificioDestinoId"
+    }
+  }
+}

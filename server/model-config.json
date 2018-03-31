@@ -1,0 +1,90 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "User": {
+    "dataSource": "twparking"
+  },
+  "AccessToken": {
+    "dataSource": "twparking",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "twparking",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "twparking",
+    "public": false,
+    "options": {
+      "strictObjectIDCoercion": true
+    }
+  },
+  "Role": {
+    "dataSource": "twparking",
+    "public": false
+  },
+  "MontoAdicional": {
+    "dataSource": "twparking",
+    "public": true
+  },
+  "Edificio": {
+    "dataSource": "twparking",
+    "public": true
+  },
+  "TipoTransicion": {
+    "dataSource": "twparking",
+    "public": true
+  },
+  "Params": {
+    "dataSource": "twparking",
+    "public": true
+  },
+  "TipoPreferencia": {
+    "dataSource": "twparking",
+    "public": true
+  },
+  "AsignacionPuesto": {
+    "dataSource": "twparking",
+    "public": true
+  },
+  "Auto": {
+    "dataSource": "twparking",
+    "public": true
+  },
+  "PagoPuesto": {
+    "dataSource": "twparking",
+    "public": true
+  },
+  "Puesto": {
+    "dataSource": "twparking",
+    "public": true
+  },
+  "Cobro": {
+    "dataSource": "twparking",
+    "public": true
+  },
+  "Pago": {
+    "dataSource": "twparking",
+    "public": true
+  },
+  "DistanciaEdificio": {
+    "dataSource": "twparking",
+    "public": true
+  },
+  "Usuario": {
+    "dataSource": "twparking",
+    "public": true
+  }
+}

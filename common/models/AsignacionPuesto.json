@@ -1,0 +1,100 @@
+{
+  "name": "AsignacionPuesto",
+  "options": {
+    "idInjection": false,
+    "postgresql": {
+      "schema": "public",
+      "table": "asignacion_puesto"
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": 0,
+      "id": 1,
+      "postgresql": {
+        "columnName": "id",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": 0,
+        "nullable": "NO"
+      }
+    },
+    "autoId": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": 0,
+      "postgresql": {
+        "columnName": "auto_id",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": 0,
+        "nullable": "NO"
+      }
+    },
+    "fechaAsignacion": {
+      "type": "String",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "fecha_asignacion",
+        "dataType": "timestamp without time zone",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "fechaLiberacion": {
+      "type": "String",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "fecha_liberacion",
+        "dataType": "timestamp without time zone",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "puestoId": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": 0,
+      "postgresql": {
+        "columnName": "puesto_id",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": 0,
+        "nullable": "NO"
+      }
+    }
+  },
+  "relations": {
+    "puesto": {
+      "model": "Puesto",
+      "type": "belongsTo",
+      "foreignKey": "puestoId"
+    },
+    "auto": {
+      "model": "Auto",
+      "type": "belongsTo",
+      "foreignKey": "autoId"
+    }
+  }
+}

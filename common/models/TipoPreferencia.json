@@ -1,0 +1,58 @@
+{
+  "name": "TipoPreferencia",
+  "options": {
+    "idInjection": false,
+    "postgresql": {
+      "schema": "public",
+      "table": "tipo_preferencia"
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": 0,
+      "id": 1,
+      "postgresql": {
+        "columnName": "id",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": 0,
+        "nullable": "NO"
+      }
+    },
+    "codigo": {
+      "type": "String",
+      "required": true,
+      "length": 1,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "codigo",
+        "dataType": "character varying",
+        "dataLength": 1,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "descripcion": {
+      "type": "String",
+      "required": true,
+      "length": 10,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "descripcion",
+        "dataType": "character varying",
+        "dataLength": 10,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    }
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "name": "Cobro",
+  "options": {
+    "idInjection": false,
+    "postgresql": {
+      "schema": "public",
+      "table": "cobro"
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": 0,
+      "id": 1,
+      "postgresql": {
+        "columnName": "id",
+        "dataType": "integer",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": 0,
+        "nullable": "NO"
+      }
+    },
+    "anio": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": 0,
+      "postgresql": {
+        "columnName": "anio",
+        "dataType": "integer",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": 0,
+        "nullable": "NO"
+      }
+    },
+    "mes": {
+      "type": "String",
+      "required": true,
+      "length": 31,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "mes",
+        "dataType": "character varying",
+        "dataLength": 31,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "cuotaCalculada": {
+      "type": "String",
+      "required": true,
+      "length": null,
+      "precision": 53,
+      "scale": null,
+      "postgresql": {
+        "columnName": "cuota_calculada",
+        "dataType": "float",
+        "dataLength": null,
+        "dataPrecision": 53,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "cuotaPersonal": {
+      "type": "String",
+      "required": true,
+      "length": null,
+      "precision": 53,
+      "scale": null,
+      "postgresql": {
+        "columnName": "cuota_personal",
+        "dataType": "float",
+        "dataLength": null,
+        "dataPrecision": 53,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "usuarioId": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": 0,
+      "postgresql": {
+        "columnName": "usuario_id",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": 0,
+        "nullable": "NO"
+      }
+    },
+    "montoPagado": {
+      "type": "String",
+      "required": true,
+      "length": null,
+      "precision": 53,
+      "scale": null,
+      "postgresql": {
+        "columnName": "monto_pagado",
+        "dataType": "float",
+        "dataLength": null,
+        "dataPrecision": 53,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "fechaPago": {
+      "type": "Date",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "fecha_pago",
+        "dataType": "date",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    }
+  },
+  "relations": {
+    "usuario": {
+      "model": "Usuario",
+      "type": "belongsTo",
+      "foreignKey": "usuarioId"
+    }
+  }
+}
