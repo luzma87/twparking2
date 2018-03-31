@@ -7,7 +7,7 @@ debug_fg=$(tput setaf 9)
 red_fg=$(tput setaf 1)
 
 start_fg=$(tput setaf 5)
-color_fg=$(tput setaf 220)
+misc_fg=$(tput setaf 220)
 
 function timestamp() {
   date+"%Y%m%d_%H%M%S"
@@ -54,9 +54,17 @@ function task_color {
   color {232..255}
 }
 
+function task_clear_port {
+  local port=$(lsof -ti :3000)
+  echo "${misc_fg}Finding and killing process running in port 3000 [${port}]${normal_fg}"
+
+  kill -9 ${port}
+}
+
 function task_help {
   help_message="usage: ./go"
-  help_message+=" ${color_fg}colors${normal_fg}"
+  help_message+=" ${misc_fg}colors${normal_fg}"
+  help_message+=" | ${misc_fg}clear_port${normal_fg}"
   help_message+=" | ${start_fg}start${normal_fg}"
   help_message+=" | ${start_fg}start_db_debug${normal_fg}"
   echo "${help_message}"
@@ -67,6 +75,7 @@ function execute_task {
   shift || true
   case ${task} in
     colors) task_color ;;
+    clear_port) task_clear_port ;;
     start) task_start ;;
     start_db_debug) task_start_db_debug ;;
     *) task_help ;;
