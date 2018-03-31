@@ -25,7 +25,7 @@ function check_for_tool() {
 }
 
 function task_start {
-  check_for_tool "nodes" "nvm install node"
+  check_for_tool "node" "nvm install node"
 
   echo "${start_fg}Starting app${normal_fg}"
   node .
