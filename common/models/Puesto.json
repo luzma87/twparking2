@@ -39,6 +39,21 @@
         "nullable": "NO"
       }
     },
+    "duenioId": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": 0,
+      "postgresql": {
+        "columnName": "duenio_id",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": 0,
+        "nullable": "NO"
+      }
+    },
     "numero": {
       "type": "String",
       "required": true,
@@ -120,6 +135,11 @@
       "model": "Edificio",
       "type": "belongsTo",
       "foreignKey": "edificioId"
+    },
+    "duenio": {
+      "model": "Duenio",
+      "type": "belongsTo",
+      "foreignKey": "duenioId"
     }
   }
 }

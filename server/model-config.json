@@ -39,6 +39,10 @@
     "dataSource": "twparking",
     "public": true
   },
+  "Duenio": {
+    "dataSource": "twparking",
+    "public": true
+  },
   "Edificio": {
     "dataSource": "twparking",
     "public": true
