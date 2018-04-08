@@ -3,7 +3,17 @@
 module.exports = (PagoPuesto) => {
   PagoPuesto.disableRemoteMethodByName('deleteById');
 
-  const totalDuenio = function(duenio) {
+  const buildError = (message, status = 400) => {
+    const error = new Error(message);
+    error.status = status;
+    return error;
+  };
+
+  const buildResponse = (message, status = 200) => {
+    return {status: status, result: message};
+  };
+
+  const totalDuenio = (duenio) => {
     let total = 0;
     duenio.puestos().map(puesto => {
       total += puesto.precio;
@@ -11,7 +21,7 @@ module.exports = (PagoPuesto) => {
     return total;
   };
 
-  const prepareDuenio = function(duenio, mes, anio, pagosPuestoInsertar) {
+  const prepareDuenio = (duenio, mes, anio, pagosPuestoInsertar) => {
     let pagoPuesto = {
       duenioId: duenio.id,
       monto: totalDuenio(duenio),
@@ -21,7 +31,7 @@ module.exports = (PagoPuesto) => {
     pagosPuestoInsertar.push(pagoPuesto);
   };
 
-  const prepareDuenios = function(duenios, mes, anio) {
+  const prepareDuenios = (duenios, mes, anio) => {
     let pagosPuestoInsertar = [];
     duenios.map(duenio => {
       prepareDuenio(duenio, mes, anio, pagosPuestoInsertar);
@@ -30,7 +40,7 @@ module.exports = (PagoPuesto) => {
   };
 
   PagoPuesto.createForMonth = (params, cb) => {
-    const mes = params.mes;
+    const mes = params.mes.toUpperCase();
     const anio = params.anio;
     let Duenio = PagoPuesto.app.models.Duenio;
 
@@ -38,23 +48,31 @@ module.exports = (PagoPuesto) => {
 
     console.log(`verificando si existen pagos para ${mes} ${anio}`);
     PagoPuesto.find({where: {mes: mes, anio: anio}}, (err, pagos) => {
-      if (err) throw err;
-      if (pagos.length > 0) {
-        console.log(`ya existen pagos para ${mes} ${anio}, nothing done`);
-        cb(null, 'nothing done');
+      if (err) {
+        cb(buildError(`${mes} is not a month ${err}`));
       } else {
-        console.log(`no existen pagos para ${mes} ${anio}`);
-        let filter = {where: {estaActivo: true}, include: ['puestos']};
+        if (pagos.length > 0) {
+          console.log(`ya existen pagos para ${mes} ${anio}, nothing done`);
+          cb(null, buildResponse('nothing done'));
+        } else {
+          console.log(`no existen pagos para ${mes} ${anio}`);
+          let filter = {where: {estaActivo: true}, include: ['puestos']};
 
-        Duenio.find(filter, (err, duenios) => {
-          if (err) throw err;
-          let pagosPuestoInsertar = prepareDuenios(duenios, mes, anio);
-          PagoPuesto.create(pagosPuestoInsertar, (err, obj) => {
-            if (err) throw err;
-            console.log(`done creating pagos para ${mes} ${anio}`);
-            cb(null, obj);
+          Duenio.find(filter, (err, duenios) => {
+            if (err) {
+              cb(buildError(`error finding duenios: ${err}`), 500);
+            }
+            let pagosPuestoInsertar = prepareDuenios(duenios, mes, anio);
+            PagoPuesto.create(pagosPuestoInsertar, (err, obj) => {
+              if (err) {
+                cb(buildError(`error inserting: ${err}`), 500);
+              } else {
+                console.log(`done creating pagos para ${mes} ${anio}`);
+                cb(null, buildResponse('inserted', 201));
+              }
+            });
           });
-        });
+        }
       }
     });
   };
@@ -71,7 +89,7 @@ module.exports = (PagoPuesto) => {
     ],
     returns: {
       arg: 'result',
-      type: 'object',
+      type: 'string',
     },
   });
 };
