@@ -11,7 +11,7 @@
   "properties": {
     "id": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": 0,
@@ -25,14 +25,14 @@
         "nullable": "NO"
       }
     },
-    "puestoId": {
+    "duenioId": {
       "type": "Number",
       "required": true,
       "length": null,
       "precision": null,
       "scale": 0,
       "postgresql": {
-        "columnName": "puesto_id",
+        "columnName": "duenio_id",
         "dataType": "bigint",
         "dataLength": null,
         "dataPrecision": null,
@@ -41,7 +41,7 @@
       }
     },
     "monto": {
-      "type": "String",
+      "type": "number",
       "required": true,
       "length": null,
       "precision": 53,
@@ -57,7 +57,7 @@
     },
     "fechaPago": {
       "type": "Date",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": null,
@@ -117,10 +117,10 @@
     }
   },
   "relations": {
-    "puesto": {
-      "model": "Puesto",
+    "duenio": {
+      "model": "Duenio",
       "type": "belongsTo",
-      "foreignKey": "puestoId"
+      "foreignKey": "duenioId"
     }
   }
 }

@@ -68,6 +68,21 @@
         "dataScale": null,
         "nullable": "YES"
       }
+    },
+    "estaActivo": {
+      "type": "Boolean",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "esta_activo",
+        "dataType": "boolean",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
     }
   },
   "relations": {
