@@ -17,7 +17,6 @@ module.exports = (PagoPuesto) => {
       monto: totalDuenio(duenio),
       mes: mes,
       anio: anio,
-      datosPago: duenio.datosPago,
     };
     pagosPuestoInsertar.push(pagoPuesto);
   };

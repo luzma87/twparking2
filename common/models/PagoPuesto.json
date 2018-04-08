@@ -99,21 +99,6 @@
         "dataScale": 0,
         "nullable": "NO"
       }
-    },
-    "datosPago": {
-      "type": "String",
-      "required": true,
-      "length": 1023,
-      "precision": null,
-      "scale": null,
-      "postgresql": {
-        "columnName": "datos_pago",
-        "dataType": "character varying",
-        "dataLength": 1023,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "NO"
-      }
     }
   },
   "relations": {
