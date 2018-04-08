@@ -37,6 +37,18 @@ function task_start_db_debug {
   DEBUG=*postgresql node .
 }
 
+function task_start_debug {
+  # https://loopback.io/doc/en/lb2/Setting-debug-strings.html
+  echo "${start_fg}Starting app showing ALL debug info${normal_fg}"
+  DEBUG=* node .
+}
+
+function task_start_remote_debug {
+  # https://loopback.io/doc/en/lb2/Setting-debug-strings.html
+  echo "${start_fg}Starting app showing ALL debug info${normal_fg}"
+  DEBUG=strong-remoting* node .
+}
+
 function color(){
     for c; do
         printf '\e[48;5;%dm%03d' $c $c
@@ -66,7 +78,9 @@ function task_help {
   help_message+=" ${misc_fg}colors${normal_fg}"
   help_message+=" | ${misc_fg}clear_port${normal_fg}"
   help_message+=" | ${start_fg}start${normal_fg}"
+  help_message+=" | ${start_fg}start_debug${normal_fg}"
   help_message+=" | ${start_fg}start_db_debug${normal_fg}"
+  help_message+=" | ${start_fg}start_remote_debug${normal_fg}"
   echo "${help_message}"
 }
 
@@ -77,7 +91,9 @@ function execute_task {
     colors) task_color ;;
     clear_port) task_clear_port ;;
     start) task_start ;;
+    start_debug) task_start_debug ;;
     start_db_debug) task_start_db_debug ;;
+    start_remote_debug) task_start_remote_debug ;;
     *) task_help ;;
   esac
 }
