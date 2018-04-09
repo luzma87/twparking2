@@ -1,83 +1,97 @@
 {
-  "name": "AsignacionPuesto",
-  "plural": "AsignacionesPuestos",
+  "name": "Payment",
   "options": {
     "idInjection": false,
     "postgresql": {
       "schema": "public",
-      "table": "asignacion_puesto"
+      "table": "payment"
     }
   },
   "properties": {
     "id": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": 0,
       "id": 1,
       "postgresql": {
         "columnName": "id",
-        "dataType": "bigint",
+        "dataType": "integer",
         "dataLength": null,
         "dataPrecision": null,
         "dataScale": 0,
         "nullable": "NO"
       }
     },
-    "autoId": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": null,
-      "scale": 0,
-      "postgresql": {
-        "columnName": "auto_id",
-        "dataType": "bigint",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": 0,
-        "nullable": "NO"
-      }
-    },
-    "fechaAsignacion": {
+    "amount": {
       "type": "String",
       "required": true,
       "length": null,
-      "precision": null,
+      "precision": 53,
       "scale": null,
       "postgresql": {
-        "columnName": "fecha_asignacion",
-        "dataType": "timestamp without time zone",
+        "columnName": "amount",
+        "dataType": "float",
         "dataLength": null,
-        "dataPrecision": null,
+        "dataPrecision": 53,
         "dataScale": null,
         "nullable": "NO"
       }
     },
-    "fechaLiberacion": {
-      "type": "String",
+    "date": {
+      "type": "Date",
       "required": false,
       "length": null,
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "fecha_liberacion",
-        "dataType": "timestamp without time zone",
+        "columnName": "date",
+        "dataType": "date",
         "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"
       }
     },
-    "puestoId": {
+    "month": {
+      "type": "String",
+      "required": true,
+      "length": 31,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "month",
+        "dataType": "character varying",
+        "dataLength": 31,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "year": {
       "type": "Number",
       "required": true,
       "length": null,
       "precision": null,
       "scale": 0,
       "postgresql": {
-        "columnName": "puesto_id",
+        "columnName": "year",
+        "dataType": "integer",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": 0,
+        "nullable": "NO"
+      }
+    },
+    "ownerId": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": 0,
+      "postgresql": {
+        "columnName": "owner_id",
         "dataType": "bigint",
         "dataLength": null,
         "dataPrecision": null,
@@ -87,15 +101,10 @@
     }
   },
   "relations": {
-    "puesto": {
-      "model": "Puesto",
+    "owner": {
+      "model": "Owner",
       "type": "belongsTo",
-      "foreignKey": "puestoId"
-    },
-    "auto": {
-      "model": "Auto",
-      "type": "belongsTo",
-      "foreignKey": "autoId"
+      "foreignKey": "ownerId"
     }
   }
 }

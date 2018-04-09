@@ -1,37 +1,23 @@
 {
-  "name": "Pago",
+  "name": "OtherCharge",
   "options": {
     "idInjection": false,
     "postgresql": {
       "schema": "public",
-      "table": "pago"
-    }
+      "table": "other_charge"
+    },
+    "relations": {}
   },
   "properties": {
     "id": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": 0,
       "id": 1,
       "postgresql": {
         "columnName": "id",
-        "dataType": "bigint",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": 0,
-        "nullable": "NO"
-      }
-    },
-    "anio": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": null,
-      "scale": 0,
-      "postgresql": {
-        "columnName": "anio",
         "dataType": "integer",
         "dataLength": null,
         "dataPrecision": null,
@@ -39,29 +25,14 @@
         "nullable": "NO"
       }
     },
-    "fechaPago": {
-      "type": "String",
-      "required": true,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "postgresql": {
-        "columnName": "fecha_pago",
-        "dataType": "timestamp without time zone",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "NO"
-      }
-    },
-    "mes": {
+    "description": {
       "type": "String",
       "required": true,
       "length": 255,
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "mes",
+        "columnName": "description",
         "dataType": "character varying",
         "dataLength": 255,
         "dataPrecision": null,
@@ -69,14 +40,14 @@
         "nullable": "NO"
       }
     },
-    "monto": {
+    "amount": {
       "type": "String",
       "required": true,
       "length": null,
       "precision": 53,
       "scale": null,
       "postgresql": {
-        "columnName": "monto",
+        "columnName": "amount",
         "dataType": "float",
         "dataLength": null,
         "dataPrecision": 53,
@@ -84,27 +55,20 @@
         "nullable": "NO"
       }
     },
-    "usuarioId": {
-      "type": "Number",
+    "isActive": {
+      "type": "Boolean",
       "required": true,
       "length": null,
       "precision": null,
-      "scale": 0,
+      "scale": null,
       "postgresql": {
-        "columnName": "usuario_id",
-        "dataType": "bigint",
+        "columnName": "is_active",
+        "dataType": "boolean",
         "dataLength": null,
         "dataPrecision": null,
-        "dataScale": 0,
+        "dataScale": null,
         "nullable": "NO"
       }
-    }
-  },
-  "relations": {
-    "usuario": {
-      "model": "Usuario",
-      "type": "belongsTo",
-      "foreignKey": "usuarioId"
     }
   }
 }

@@ -1,145 +1,140 @@
 {
-  "name": "Usuario",
+  "name": "Charge",
   "options": {
     "idInjection": false,
     "postgresql": {
       "schema": "public",
-      "table": "usuario"
+      "table": "charge"
     }
   },
   "properties": {
     "id": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": 0,
       "id": 1,
       "postgresql": {
         "columnName": "id",
-        "dataType": "bigint",
+        "dataType": "integer",
         "dataLength": null,
         "dataPrecision": null,
         "dataScale": 0,
         "nullable": "NO"
       }
     },
-    "cedula": {
-      "type": "String",
-      "required": true,
-      "length": 10,
-      "precision": null,
-      "scale": null,
-      "postgresql": {
-        "columnName": "cedula",
-        "dataType": "character varying",
-        "dataLength": 10,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "NO"
-      }
-    },
-    "email": {
-      "type": "String",
-      "required": true,
-      "length": 100,
-      "precision": null,
-      "scale": null,
-      "postgresql": {
-        "columnName": "email",
-        "dataType": "character varying",
-        "dataLength": 100,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "NO"
-      }
-    },
-    "esAdmin": {
-      "type": "Boolean",
-      "required": true,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "postgresql": {
-        "columnName": "es_admin",
-        "dataType": "boolean",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "NO"
-      }
-    },
-    "estaActivo": {
-      "type": "Boolean",
-      "required": true,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "postgresql": {
-        "columnName": "esta_activo",
-        "dataType": "boolean",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "NO"
-      }
-    },
-    "nombre": {
-      "type": "String",
-      "required": true,
-      "length": 50,
-      "precision": null,
-      "scale": null,
-      "postgresql": {
-        "columnName": "nombre",
-        "dataType": "character varying",
-        "dataLength": 50,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "NO"
-      }
-    },
-    "password": {
-      "type": "String",
-      "required": true,
-      "length": 512,
-      "precision": null,
-      "scale": null,
-      "postgresql": {
-        "columnName": "password",
-        "dataType": "character varying",
-        "dataLength": 512,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "NO"
-      }
-    },
-    "tipoPreferenciaId": {
+    "year": {
       "type": "Number",
       "required": true,
       "length": null,
       "precision": null,
       "scale": 0,
       "postgresql": {
-        "columnName": "tipo_preferencia_id",
+        "columnName": "year",
+        "dataType": "integer",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": 0,
+        "nullable": "NO"
+      }
+    },
+    "month": {
+      "type": "String",
+      "required": true,
+      "length": 31,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "month",
+        "dataType": "character varying",
+        "dataLength": 31,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "amountDefault": {
+      "type": "String",
+      "required": true,
+      "length": null,
+      "precision": 53,
+      "scale": null,
+      "postgresql": {
+        "columnName": "amount_default",
+        "dataType": "float",
+        "dataLength": null,
+        "dataPrecision": 53,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "amountPerson": {
+      "type": "String",
+      "required": true,
+      "length": null,
+      "precision": 53,
+      "scale": null,
+      "postgresql": {
+        "columnName": "amount_person",
+        "dataType": "float",
+        "dataLength": null,
+        "dataPrecision": 53,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "personId": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": 0,
+      "postgresql": {
+        "columnName": "person_id",
         "dataType": "bigint",
         "dataLength": null,
         "dataPrecision": null,
         "dataScale": 0,
         "nullable": "NO"
       }
+    },
+    "amountPayed": {
+      "type": "String",
+      "required": true,
+      "length": null,
+      "precision": 53,
+      "scale": null,
+      "postgresql": {
+        "columnName": "amount_payed",
+        "dataType": "float",
+        "dataLength": null,
+        "dataPrecision": 53,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "date": {
+      "type": "Date",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "date",
+        "dataType": "date",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
     }
   },
   "relations": {
-    "preferencia": {
-      "model": "TipoPreferencia",
-      "type": "hasOne",
-      "foreignKey": "id"
-    },
-    "autos": {
-      "model": "Auto",
-      "type": "hasMany",
-      "foreignKey": "usuarioId"
+    "person": {
+      "model": "Person",
+      "type": "belongsTo",
+      "foreignKey": "personId"
     }
   }
 }

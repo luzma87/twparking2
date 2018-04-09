@@ -35,19 +35,7 @@
     "dataSource": "twparking",
     "public": false
   },
-  "MontoAdicional": {
-    "dataSource": "twparking",
-    "public": true
-  },
-  "Duenio": {
-    "dataSource": "twparking",
-    "public": true
-  },
-  "Edificio": {
-    "dataSource": "twparking",
-    "public": true
-  },
-  "TipoTransicion": {
+  "OtherCharge": {
     "dataSource": "twparking",
     "public": true
   },
@@ -55,39 +43,39 @@
     "dataSource": "twparking",
     "public": true
   },
-  "TipoPreferencia": {
+  "BuildingDistance": {
     "dataSource": "twparking",
     "public": true
   },
-  "AsignacionPuesto": {
+  "Person": {
     "dataSource": "twparking",
     "public": true
   },
-  "Auto": {
+  "Owner": {
     "dataSource": "twparking",
     "public": true
   },
-  "PagoPuesto": {
+  "Car": {
     "dataSource": "twparking",
     "public": true
   },
-  "Puesto": {
+  "Payment": {
     "dataSource": "twparking",
     "public": true
   },
-  "Cobro": {
+  "Building": {
     "dataSource": "twparking",
     "public": true
   },
-  "Pago": {
+  "Charge": {
     "dataSource": "twparking",
     "public": true
   },
-  "DistanciaEdificio": {
+  "Place": {
     "dataSource": "twparking",
     "public": true
   },
-  "Usuario": {
+  "ParkingAssignment": {
     "dataSource": "twparking",
     "public": true
   }

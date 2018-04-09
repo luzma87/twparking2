@@ -1,82 +1,82 @@
 {
-  "name": "Duenio",
+  "name": "Owner",
   "options": {
     "idInjection": false,
     "postgresql": {
       "schema": "public",
-      "table": "duenio"
+      "table": "owner"
     }
   },
   "properties": {
     "id": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": 0,
       "id": 1,
       "postgresql": {
         "columnName": "id",
-        "dataType": "bigint",
+        "dataType": "integer",
         "dataLength": null,
         "dataPrecision": null,
         "dataScale": 0,
         "nullable": "NO"
       }
     },
-    "nombre": {
+    "name": {
       "type": "String",
       "required": true,
-      "length": 50,
+      "length": 63,
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "nombre",
+        "columnName": "name",
         "dataType": "character varying",
-        "dataLength": 50,
+        "dataLength": 63,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "NO"
       }
     },
-    "datosPago": {
+    "paymentInfo": {
       "type": "String",
       "required": false,
-      "length": null,
+      "length": 1023,
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "datos_pago",
-        "dataType": "text",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "YES"
-      }
-    },
-    "observaciones": {
-      "type": "String",
-      "required": false,
-      "length": 150,
-      "precision": null,
-      "scale": null,
-      "postgresql": {
-        "columnName": "observaciones",
+        "columnName": "payment_info",
         "dataType": "character varying",
-        "dataLength": 150,
+        "dataLength": 1023,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"
       }
     },
-    "estaActivo": {
+    "observations": {
+      "type": "String",
+      "required": false,
+      "length": 2047,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "observations",
+        "dataType": "character varying",
+        "dataLength": 2047,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "isActive": {
       "type": "Boolean",
       "required": true,
       "length": null,
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "esta_activo",
+        "columnName": "is_active",
         "dataType": "boolean",
         "dataLength": null,
         "dataPrecision": null,
@@ -86,10 +86,10 @@
     }
   },
   "relations": {
-    "puestos": {
-      "model": "Puesto",
+    "places": {
+      "model": "Place",
       "type": "hasMany",
-      "foreignKey": "duenioId"
+      "foreignKey": "ownerId"
     }
   }
 }

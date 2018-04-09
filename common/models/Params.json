@@ -10,7 +10,7 @@
   "properties": {
     "id": {
       "type": "Number",
-      "required": false,
+      "required": true,
       "length": null,
       "precision": null,
       "scale": 0,
@@ -24,14 +24,14 @@
         "nullable": "NO"
       }
     },
-    "textoMail": {
+    "mailTemplate": {
       "type": "String",
       "required": true,
       "length": null,
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "texto_mail",
+        "columnName": "mail_template",
         "dataType": "text",
         "dataLength": null,
         "dataPrecision": null,
@@ -39,14 +39,14 @@
         "nullable": "NO"
       }
     },
-    "ascendente": {
+    "ascending": {
       "type": "Boolean",
       "required": true,
       "length": null,
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "ascendente",
+        "columnName": "ascending",
         "dataType": "boolean",
         "dataLength": null,
         "dataPrecision": null,

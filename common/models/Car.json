@@ -1,16 +1,16 @@
 {
-  "name": "Edificio",
+  "name": "Car",
   "options": {
     "idInjection": false,
     "postgresql": {
       "schema": "public",
-      "table": "edificio"
+      "table": "car"
     }
   },
   "properties": {
     "id": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": 0,
@@ -24,44 +24,14 @@
         "nullable": "NO"
       }
     },
-    "datosPago": {
-      "type": "String",
-      "required": false,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "postgresql": {
-        "columnName": "datos_pago",
-        "dataType": "text",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "YES"
-      }
-    },
-    "distanciaEdificioId": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": null,
-      "scale": 0,
-      "postgresql": {
-        "columnName": "distancia_edificio_id",
-        "dataType": "bigint",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": 0,
-        "nullable": "NO"
-      }
-    },
-    "esAmpliable": {
+    "isDefault": {
       "type": "Boolean",
       "required": true,
       "length": null,
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "es_ampliable",
+        "columnName": "is_default",
         "dataType": "boolean",
         "dataLength": null,
         "dataPrecision": null,
@@ -69,47 +39,87 @@
         "nullable": "NO"
       }
     },
-    "nombre": {
+    "make": {
       "type": "String",
       "required": true,
-      "length": 50,
+      "length": 20,
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "nombre",
+        "columnName": "make",
         "dataType": "character varying",
-        "dataLength": 50,
+        "dataLength": 20,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "NO"
       }
     },
-    "observaciones": {
+    "model": {
       "type": "String",
-      "required": false,
-      "length": 150,
+      "required": true,
+      "length": 25,
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "observaciones",
+        "columnName": "model",
         "dataType": "character varying",
-        "dataLength": 150,
+        "dataLength": 25,
         "dataPrecision": null,
         "dataScale": null,
-        "nullable": "YES"
+        "nullable": "NO"
+      }
+    },
+    "plate": {
+      "type": "String",
+      "required": true,
+      "length": 8,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "plate",
+        "dataType": "character varying",
+        "dataLength": 8,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "size": {
+      "type": "String",
+      "required": true,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "size",
+        "dataType": "character varying",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "personId": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": 0,
+      "postgresql": {
+        "columnName": "person_id",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": 0,
+        "nullable": "NO"
       }
     }
   },
   "relations": {
-    "distancia": {
-      "model": "DistanciaEdificio",
+    "person": {
+      "model": "Person",
       "type": "belongsTo",
-      "foreignKey": "distanciaEdificioId"
-    },
-    "puestos": {
-      "model": "Puesto",
-      "type": "hasMany",
-      "foreignKey": "edificioId"
+      "foreignKey": "personId"
     }
   }
 }

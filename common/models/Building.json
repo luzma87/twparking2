@@ -1,16 +1,16 @@
 {
-  "name": "TipoTransicion",
+  "name": "Building",
   "options": {
     "idInjection": false,
     "postgresql": {
       "schema": "public",
-      "table": "tipo_transicion"
+      "table": "building"
     }
   },
   "properties": {
     "id": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": 0,
@@ -24,14 +24,14 @@
         "nullable": "NO"
       }
     },
-    "distanciaEdificioDestinoId": {
+    "buildingDistanceId": {
       "type": "Number",
       "required": true,
       "length": null,
       "precision": null,
       "scale": 0,
       "postgresql": {
-        "columnName": "distancia_edificio_destino_id",
+        "columnName": "building_distance_id",
         "dataType": "bigint",
         "dataLength": null,
         "dataPrecision": null,
@@ -39,62 +39,77 @@
         "nullable": "NO"
       }
     },
-    "distanciaEdificioOrigenId": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": null,
-      "scale": 0,
-      "postgresql": {
-        "columnName": "distancia_edificio_origen_id",
-        "dataType": "bigint",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": 0,
-        "nullable": "NO"
-      }
-    },
-    "nombre": {
+    "name": {
       "type": "String",
       "required": true,
-      "length": 30,
+      "length": 50,
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "nombre",
+        "columnName": "name",
         "dataType": "character varying",
-        "dataLength": 30,
+        "dataLength": 50,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "NO"
       }
     },
-    "prioridad": {
+    "address": {
+      "type": "String",
+      "required": false,
+      "length": 1023,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "address",
+        "dataType": "character varying",
+        "dataLength": 1023,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "longitude": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
-      "scale": 0,
+      "scale": null,
       "postgresql": {
-        "columnName": "prioridad",
-        "dataType": "integer",
+        "columnName": "longitude",
+        "dataType": "numeric",
         "dataLength": null,
         "dataPrecision": null,
-        "dataScale": 0,
-        "nullable": "NO"
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "latitude": {
+      "type": "Number",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "latitude",
+        "dataType": "numeric",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
       }
     }
   },
   "relations": {
-    "distancia1": {
-      "model": "DistanciaEdificio",
+    "distance": {
+      "model": "BuildingDistance",
       "type": "belongsTo",
-      "foreignKey": "distanciaEdificioOrigenId"
+      "foreignKey": "buildingDistanceId"
     },
-    "distancia2": {
-      "model": "DistanciaEdificio",
-      "type": "belongsTo",
-      "foreignKey": "distanciaEdificioDestinoId"
+    "places": {
+      "model": "Place",
+      "type": "hasMany",
+      "foreignKey": "buildingId"
     }
   }
 }

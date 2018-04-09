@@ -1,10 +1,10 @@
 {
-  "name": "Auto",
+  "name": "Person",
   "options": {
     "idInjection": false,
     "postgresql": {
       "schema": "public",
-      "table": "auto"
+      "table": "person"
     }
   },
   "properties": {
@@ -24,14 +24,44 @@
         "nullable": "NO"
       }
     },
-    "esDefault": {
+    "idNumber": {
+      "type": "String",
+      "required": true,
+      "length": 10,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "id_number",
+        "dataType": "character varying",
+        "dataLength": 10,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "email": {
+      "type": "String",
+      "required": true,
+      "length": 100,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "email",
+        "dataType": "character varying",
+        "dataLength": 100,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "isAdmin": {
       "type": "Boolean",
       "required": true,
       "length": null,
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "es_default",
+        "columnName": "is_admin",
         "dataType": "boolean",
         "dataLength": null,
         "dataPrecision": null,
@@ -39,87 +69,57 @@
         "nullable": "NO"
       }
     },
-    "marca": {
-      "type": "String",
-      "required": true,
-      "length": 20,
-      "precision": null,
-      "scale": null,
-      "postgresql": {
-        "columnName": "marca",
-        "dataType": "character varying",
-        "dataLength": 20,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "NO"
-      }
-    },
-    "modelo": {
-      "type": "String",
-      "required": true,
-      "length": 25,
-      "precision": null,
-      "scale": null,
-      "postgresql": {
-        "columnName": "modelo",
-        "dataType": "character varying",
-        "dataLength": 25,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "NO"
-      }
-    },
-    "placa": {
-      "type": "String",
-      "required": true,
-      "length": 8,
-      "precision": null,
-      "scale": null,
-      "postgresql": {
-        "columnName": "placa",
-        "dataType": "character varying",
-        "dataLength": 8,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "NO"
-      }
-    },
-    "tamanio": {
-      "type": "String",
-      "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "postgresql": {
-        "columnName": "tamanio",
-        "dataType": "character varying",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "NO"
-      }
-    },
-    "usuarioId": {
-      "type": "Number",
+    "isActive": {
+      "type": "Boolean",
       "required": true,
       "length": null,
       "precision": null,
-      "scale": 0,
+      "scale": null,
       "postgresql": {
-        "columnName": "usuario_id",
-        "dataType": "bigint",
+        "columnName": "is_active",
+        "dataType": "boolean",
         "dataLength": null,
         "dataPrecision": null,
-        "dataScale": 0,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "name": {
+      "type": "String",
+      "required": true,
+      "length": 50,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "name",
+        "dataType": "character varying",
+        "dataLength": 50,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "password": {
+      "type": "String",
+      "required": true,
+      "length": 512,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "password",
+        "dataType": "character varying",
+        "dataLength": 512,
+        "dataPrecision": null,
+        "dataScale": null,
         "nullable": "NO"
       }
     }
   },
   "relations": {
-    "usuario": {
-      "model": "Usuario",
-      "type": "belongsTo",
-      "foreignKey": "usuarioId"
+    "cars": {
+      "model": "Car",
+      "type": "hasMany",
+      "foreignKey": "personId"
     }
   }
 }

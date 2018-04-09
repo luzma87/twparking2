@@ -1,38 +1,22 @@
 {
-  "name": "PagoPuesto",
-  "plural": "PagosPuestos",
+  "name": "Place",
   "options": {
     "idInjection": false,
     "postgresql": {
       "schema": "public",
-      "table": "pago_puesto"
+      "table": "place"
     }
   },
   "properties": {
     "id": {
       "type": "Number",
-      "required": false,
+      "required": true,
       "length": null,
       "precision": null,
       "scale": 0,
       "id": 1,
       "postgresql": {
         "columnName": "id",
-        "dataType": "integer",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": 0,
-        "nullable": "NO"
-      }
-    },
-    "duenioId": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": null,
-      "scale": 0,
-      "postgresql": {
-        "columnName": "duenio_id",
         "dataType": "bigint",
         "dataLength": null,
         "dataPrecision": null,
@@ -40,14 +24,44 @@
         "nullable": "NO"
       }
     },
-    "monto": {
-      "type": "number",
+    "buildingId": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": 0,
+      "postgresql": {
+        "columnName": "building_id",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": 0,
+        "nullable": "NO"
+      }
+    },
+    "number": {
+      "type": "String",
+      "required": true,
+      "length": 6,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "number",
+        "dataType": "character varying",
+        "dataLength": 6,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "price": {
+      "type": "String",
       "required": true,
       "length": null,
       "precision": 53,
       "scale": null,
       "postgresql": {
-        "columnName": "monto",
+        "columnName": "price",
         "dataType": "float",
         "dataLength": null,
         "dataPrecision": 53,
@@ -55,57 +69,77 @@
         "nullable": "NO"
       }
     },
-    "fechaPago": {
-      "type": "Date",
-      "required": false,
+    "size": {
+      "type": "String",
+      "required": true,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "size",
+        "dataType": "character varying",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "isActive": {
+      "type": "Boolean",
+      "required": true,
       "length": null,
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "fecha_pago",
-        "dataType": "date",
+        "columnName": "is_active",
+        "dataType": "boolean",
         "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "NO"
       }
     },
-    "mes": {
+    "paymentInfo": {
       "type": "String",
-      "required": true,
-      "length": 31,
+      "required": false,
+      "length": 1023,
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "mes",
+        "columnName": "payment_info",
         "dataType": "character varying",
-        "dataLength": 31,
+        "dataLength": 1023,
         "dataPrecision": null,
         "dataScale": null,
-        "nullable": "NO"
+        "nullable": "YES"
       }
     },
-    "anio": {
+    "ownerId": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": 0,
       "postgresql": {
-        "columnName": "anio",
-        "dataType": "integer",
+        "columnName": "owner_id",
+        "dataType": "bigint",
         "dataLength": null,
         "dataPrecision": null,
         "dataScale": 0,
-        "nullable": "NO"
+        "nullable": "YES"
       }
     }
   },
   "relations": {
-    "duenio": {
-      "model": "Duenio",
+    "building": {
+      "model": "Building",
       "type": "belongsTo",
-      "foreignKey": "duenioId"
+      "foreignKey": "buildingId"
+    },
+    "owner": {
+      "model": "Owner",
+      "type": "belongsTo",
+      "foreignKey": "ownerId"
     }
   }
 }
