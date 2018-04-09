@@ -33,8 +33,9 @@ ds.discoverModelDefinitions({views: false}, function(err, tables) {
         let jsContents = `'use strict';
 
 module.exports = function(${name}) {
-  ${name}.disableRemoteMethodByName("deleteById");
-};`;
+  ${name}.disableRemoteMethodByName('deleteById');
+};
+`;
         fs.writeFile(jsonFilename, jsonContents, (err) => {
           if (err) throw err;
           // console.log(`The file ${jsonFilename} has been saved!`);
