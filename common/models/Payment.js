@@ -1,17 +1,9 @@
 'use strict';
 
+const responseHelper = require('../responseHelper');
+
 module.exports = function(Payment) {
   Payment.disableRemoteMethodByName('deleteById');
-
-  const buildError = (message, status = 400) => {
-    const error = new Error(message);
-    error.status = status;
-    return error;
-  };
-
-  const buildResponse = (message, status = 200) => {
-    return {status: status, result: message};
-  };
 
   const totalOwner = (duenio) => {
     let total = 0;
@@ -39,6 +31,25 @@ module.exports = function(Payment) {
     return paymentsInsert;
   };
 
+  let insertPayments = function(monthYear, Owner, cb, month, year) {
+    console.log(`no payments found for ${monthYear}`);
+    let filter = {where: {estaActivo: true}, include: ['places']};
+
+    Owner.find(filter, (err, owners) => {
+      if (err) {
+        cb(responseHelper.buildError(`error finding owners: ${err}`), 500);
+      }
+      let pagosPuestoInsertar = prepareOwners(owners, month, year);
+      Payment.create(pagosPuestoInsertar, (err) => {
+        if (err) {
+          cb(responseHelper.buildError(`error inserting: ${err}`), 500);
+        } else {
+          console.log(`done creating payments for ${monthYear}`);
+          cb(null, responseHelper.buildResponse('inserted', 201));
+        }
+      });
+    });
+  };
   Payment.createForMonth = (params, cb) => {
     const month = params.month.toUpperCase();
     const year = params.year;
@@ -50,29 +61,13 @@ module.exports = function(Payment) {
     console.log(`finding payments for ${monthYear}`);
     Payment.find({where: {month: month, year: year}}, (err, payments) => {
       if (err) {
-        cb(buildError(`${month} is not a month ${err}`));
+        cb(responseHelper.buildError(`${month} is not a month ${err}`));
       } else {
         if (payments.length > 0) {
           console.log(`payments already found for ${monthYear}: nothing done`);
-          cb(null, buildResponse('nothing done'));
+          cb(null, responseHelper.buildResponse('nothing done'));
         } else {
-          console.log(`no payments found for ${monthYear}`);
-          let filter = {where: {estaActivo: true}, include: ['places']};
-
-          Owner.find(filter, (err, owners) => {
-            if (err) {
-              cb(buildError(`error finding owners: ${err}`), 500);
-            }
-            let pagosPuestoInsertar = prepareOwners(owners, month, year);
-            Payment.create(pagosPuestoInsertar, (err, obj) => {
-              if (err) {
-                cb(buildError(`error inserting: ${err}`), 500);
-              } else {
-                console.log(`done creating payments for ${monthYear}`);
-                cb(null, buildResponse('inserted', 201));
-              }
-            });
-          });
+          insertPayments(monthYear, Owner, cb, month, year);
         }
       }
     });
