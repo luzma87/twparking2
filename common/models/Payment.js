@@ -43,19 +43,20 @@ module.exports = function(Payment) {
     const month = params.month.toUpperCase();
     const year = params.year;
     let Owner = Payment.app.models.Owner;
+    let monthYear = `${month} ${year}`;
 
-    console.log(`create payments for ${month} ${year}`);
+    console.log(`create payments for ${monthYear}`);
 
-    console.log(`1: finding payments for ${month} ${year}`);
+    console.log(`finding payments for ${monthYear}`);
     Payment.find({where: {month: month, year: year}}, (err, payments) => {
       if (err) {
         cb(buildError(`${month} is not a month ${err}`));
       } else {
         if (payments.length > 0) {
-          console.log(`payments already found for ${month} ${year}`);
+          console.log(`payments already found for ${monthYear}: nothing done`);
           cb(null, buildResponse('nothing done'));
         } else {
-          console.log(`no payments found for ${month} ${year}`);
+          console.log(`no payments found for ${monthYear}`);
           let filter = {where: {estaActivo: true}, include: ['places']};
 
           Owner.find(filter, (err, owners) => {
@@ -67,7 +68,7 @@ module.exports = function(Payment) {
               if (err) {
                 cb(buildError(`error inserting: ${err}`), 500);
               } else {
-                console.log(`done creating payments for ${month} ${year}`);
+                console.log(`done creating payments for ${monthYear}`);
                 cb(null, buildResponse('inserted', 201));
               }
             });
