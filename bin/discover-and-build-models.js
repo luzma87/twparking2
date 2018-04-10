@@ -19,8 +19,9 @@ ds.discoverModelDefinitions({views: false}, function(err, tables) {
       }, function(err, schema) {
         let wantedSchema = schema[`public.${table.name}`];
         let name = wantedSchema.name;
-        let jsonFilename = `common/models/${name}.json`;
-        let jsFilename = `common/models/${name}.js`;
+        let filesPath = 'common/models';
+        let jsonFilename = `${filesPath}/${name}.json`;
+        let jsFilename = `${filesPath}/${name}.js`;
 
         let modelConfig = ` "${name}": {
           "dataSource": "twparking",
