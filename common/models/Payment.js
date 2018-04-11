@@ -33,9 +33,9 @@ module.exports = function(Payment) {
 
   let insertPayments = function(monthYear, Owner, cb, month, year) {
     console.log(`no payments found for ${monthYear}`);
-    let filter = {where: {estaActivo: true}, include: ['places']};
+    let ownersFilter = {where: {estaActivo: true}, include: ['places']};
 
-    Owner.find(filter, (err, owners) => {
+    Owner.find(ownersFilter, (err, owners) => {
       if (err) {
         cb(responseHelper.buildError(`error finding owners: ${err}`), 500);
       }
@@ -50,6 +50,7 @@ module.exports = function(Payment) {
       });
     });
   };
+
   Payment.createForMonth = (params, cb) => {
     const month = params.month.toUpperCase();
     const year = params.year;

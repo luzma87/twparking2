@@ -40,6 +40,21 @@
         "nullable": "NO"
       }
     },
+    "code": {
+      "type": "String",
+      "required": true,
+      "length": 3,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "code",
+        "dataType": "character varying",
+        "dataLength": 3,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
     "amount": {
       "type": "String",
       "required": true,

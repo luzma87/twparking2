@@ -1,0 +1,7 @@
+{
+  "twparking": {
+    "name": "twparking",
+    "connector": "memory",
+    "file": "testData.json"
+  }
+}

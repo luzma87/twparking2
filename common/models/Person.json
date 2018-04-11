@@ -10,7 +10,7 @@
   "properties": {
     "id": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": 0,
@@ -112,6 +112,21 @@
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "NO"
+      }
+    },
+    "preferredPaymentMethod": {
+      "type": "String",
+      "required": false,
+      "length": 20,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "preferred_payment_method",
+        "dataType": "character varying",
+        "dataLength": 20,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
       }
     }
   },
