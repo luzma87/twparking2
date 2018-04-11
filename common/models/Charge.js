@@ -14,11 +14,16 @@ module.exports = function(Charge) {
     let OtherCharge = Charge.app.models.OtherCharge;
 
     let existingChargesFilter = {where: {month: month, year: year}};
+    console.log('1----------------------------', Charge.find());
     const existingCharges = await Charge.find(existingChargesFilter).catch(err => {
+    console.log('2----------------------------');
       cb(responseHelper.buildError(`error finding charges: ${err}`), 500);
     });
+    console.log('3----------------------------');
+    console.log(existingCharges);
     if (existingCharges.length > 0) {
-      console.log(`payments already found for ${monthYear}: nothing done`);
+      let message = `charges already found for ${monthYear}: nothing done`;
+      cb(null, responseHelper.buildResponse(message));
       return
     }
 
@@ -45,13 +50,16 @@ module.exports = function(Charge) {
       cb(responseHelper.buildError(`error finding people: ${err}`), 500);
     });
 
-    const otherBankAmount = parseFloat(otherBank[0].amount);
+    let string = otherBank.length > 0 ? otherBank[0].amount : '0';
+    const otherBankAmount = parseFloat(string);
     const peopleOtherBanks = parseFloat(people.length);
     total += (otherBankAmount * peopleOtherBanks);
 
     otherCharges.map(charge => {
       total += charge.amount;
     });
+
+    cb(null, responseHelper.buildResponse('inserted', 201));
   };
 
   Charge.remoteMethod('createForMonth', {
