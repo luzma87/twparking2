@@ -13,20 +13,19 @@ module.exports = function(Payment) {
     return total;
   };
 
-  const prepareOwner = (owner, month, year, paymentsInsert) => {
-    let payment = {
+  const prepareOwner = (owner, month, year) => {
+    return {
       ownerId: owner.id,
       amount: totalOwner(owner),
       month: month,
       year: year,
     };
-    paymentsInsert.push(payment);
   };
 
   const prepareOwners = (owners, month, year) => {
     let paymentsInsert = [];
     owners.map(owner => {
-      prepareOwner(owner, month, year, paymentsInsert);
+      paymentsInsert.push(prepareOwner(owner, month, year));
     });
     return paymentsInsert;
   };

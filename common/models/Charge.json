@@ -55,7 +55,7 @@
       }
     },
     "amountDefault": {
-      "type": "String",
+      "type": "number",
       "required": true,
       "length": null,
       "precision": 53,
@@ -70,7 +70,7 @@
       }
     },
     "amountPerson": {
-      "type": "String",
+      "type": "number",
       "required": true,
       "length": null,
       "precision": 53,
@@ -100,7 +100,7 @@
       }
     },
     "amountPayed": {
-      "type": "String",
+      "type": "number",
       "required": true,
       "length": null,
       "precision": 53,
@@ -116,7 +116,7 @@
     },
     "date": {
       "type": "Date",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": null,
