@@ -3,32 +3,10 @@
 const responseHelper = require('../responseHelper');
 
 module.exports = function(Charge) {
+  let isActiveFilter = { where: { isActive: true } };
   Charge.disableRemoteMethodByName('deleteById');
 
-  Charge.createForMonth = async (params, cb) => {
-    const month = params.month.toUpperCase();
-    const year = params.year;
-    let monthYear = `${month} ${year}`;
-    let Place = Charge.app.models.Place;
-    let Person = Charge.app.models.Person;
-    let OtherCharge = Charge.app.models.OtherCharge;
-
-    let existingChargesFilter = { where: { month: month, year: year } };
-    const existingCharges = await Charge.find(existingChargesFilter).catch(err => {
-      cb(responseHelper.buildError(`error finding charges: ${err}`), 500);
-    });
-    if (existingCharges.length > 0) {
-      let message = `charges already found for ${monthYear}: nothing done`;
-      cb(null, responseHelper.buildResponse(message));
-      return;
-    }
-
-    let isActiveFilter = { where: { isActive: true } };
-    let allOtherCharges = await OtherCharge.find(isActiveFilter).catch(err => {
-      cb(responseHelper.buildError(`error finding other charges: ${err}`), 500);
-    });
-    let otherBank = allOtherCharges.filter(charge => charge.code === 'OB');
-    let otherCharges = allOtherCharges.filter(charge => charge.code !== 'OB');
+  const getPlacesTotal = async (Place, cb) => {
     let places = await Place.find({ where: { isActive: true } }).catch(err => {
       cb(responseHelper.buildError(`error finding places: ${err}`), 500);
     });
@@ -36,7 +14,11 @@ module.exports = function(Charge) {
     places.map(place => {
       total += place.price;
     });
+    return total;
+  };
 
+  const getPeopleOtherBanksTotal = async (Person, cb, allOtherCharges) => {
+    let otherBank = allOtherCharges.filter(charge => charge.code === 'OB');
     let peopleOtherBanksFilter = { where: { preferredPaymentMethod: 'OTRO' } };
     let peopleOtherBanks = await Person.find(peopleOtherBanksFilter).catch(err => {
       cb(responseHelper.buildError(`error finding people: ${err}`), 500);
@@ -45,29 +27,47 @@ module.exports = function(Charge) {
     let string = otherBank.length > 0 ? otherBank[0].amount : '0';
     const otherBankAmount = parseFloat(string);
     const amountPeopleOtherBanks = parseFloat(peopleOtherBanks.length);
-    total += (otherBankAmount * amountPeopleOtherBanks);
+    return (otherBankAmount * amountPeopleOtherBanks);
+  };
 
+  const getOtherChargesTotal = (allOtherCharges) => {
+    let otherCharges = allOtherCharges.filter(charge => charge.code !== 'OB');
+    let total = 0;
     otherCharges.map(charge => {
       total += charge.amount;
     });
+    return total;
+  };
 
-    let activePeople = await Person.find(isActiveFilter).catch(err => {
+  const getActivePeople = async (Person, cb) => {
+    return await Person.find(isActiveFilter).catch(err => {
       cb(responseHelper.buildError(`error finding people: ${err}`), 500);
     });
+  };
 
-    const amount = total / activePeople.length;
+  const getExistingCharges = async (month, year, cb) => {
+    let existingChargesFilter = { where: { month: month, year: year } };
+    return await Charge.find(existingChargesFilter).catch(err => {
+      cb(responseHelper.buildError(`error finding charges: ${err}`), 500);
+    });
+  };
 
+  const prepareCharge = (year, month, amount, person) => {
+    return {
+      year: year,
+      month: month,
+      amountDefault: amount,
+      amountPerson: amount,
+      amountPayed: 0,
+      personId: person.id,
+      date: null,
+    };
+  };
+
+  const insertCharges = async (activePeople, year, month, amount, cb) => {
     let chargesInsert = [];
     activePeople.map(person => {
-      let charge = {
-        year: year,
-        month: month,
-        amountDefault: amount,
-        amountPerson: amount,
-        amountPayed: 0,
-        personId: person.id,
-        date: null,
-      };
+      let charge = prepareCharge(year, month, amount, person);
       chargesInsert.push(charge);
     });
 
@@ -78,6 +78,36 @@ module.exports = function(Charge) {
         cb(null, responseHelper.buildResponse(res, 201));
       }
     });
+  };
+
+  Charge.createForMonth = async (params, cb) => {
+    const month = params.month.toUpperCase();
+    const year = params.year;
+    let monthYear = `${month} ${year}`;
+    let Place = Charge.app.models.Place;
+    let Person = Charge.app.models.Person;
+    let OtherCharge = Charge.app.models.OtherCharge;
+
+    const existingCharges = await getExistingCharges(month, year, cb);
+    if (existingCharges.length > 0) {
+      let message = `charges already found for ${monthYear}: nothing done`;
+      cb(null, responseHelper.buildResponse(message));
+      return;
+    }
+
+    let allOtherCharges = await OtherCharge.find(isActiveFilter).catch(err => {
+      cb(responseHelper.buildError(`error finding other charges: ${err}`), 500);
+    });
+
+    let total = await getPlacesTotal(Place, cb);
+    total += await getPeopleOtherBanksTotal(Person, cb, allOtherCharges);
+    total += getOtherChargesTotal(allOtherCharges);
+
+    let activePeople = await getActivePeople(Person, cb);
+
+    const amount = total / activePeople.length;
+
+    await insertCharges(activePeople, year, month, amount, cb);
   };
 
   Charge.remoteMethod('createForMonth', {
