@@ -27,9 +27,13 @@ describe('Charge', () => {
       sandbox = sinon.sandbox.create();
     });
 
-    afterEach(() => {
+    afterEach((done) => {
+      app.dataSources.twparking.automigrate(function(err) {
+        done(err);
+      });
       sandbox.restore();
     });
+
     it('returns 200 and message when charges exist for given month and year',
       (done) => {
         const findChargeStub = sandbox.stub(Charge, 'find').returns(createPromise([{}]));
@@ -74,6 +78,7 @@ describe('Charge', () => {
           expect(err).to.be.null;
           let expectedResult = [
             {
+              id: 1,
               year: year,
               month: month,
               amountDefault: amount,
@@ -83,6 +88,7 @@ describe('Charge', () => {
               date: null,
             },
             {
+              id: 2,
               year: year,
               month: month,
               amountDefault: amount,
@@ -92,11 +98,12 @@ describe('Charge', () => {
               date: null,
             },
           ];
-          console.log('expected', expectedResult);
-          expect(success).to.deep.equal({
+          expect(success).to.include({
             status: 201,
-            result: expectedResult,
           });
+          expect(success.result.length).to.equal(2);
+          expect(success.result[0].__data).to.deep.equal(expectedResult[0]);
+          expect(success.result[1].__data).to.deep.equal(expectedResult[1]);
           done();
         });
       });
