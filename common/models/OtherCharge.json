@@ -56,7 +56,7 @@
       }
     },
     "amount": {
-      "type": "String",
+      "type": "number",
       "required": true,
       "length": null,
       "precision": 53,

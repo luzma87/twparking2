@@ -10,7 +10,7 @@
   "properties": {
     "id": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": 0,

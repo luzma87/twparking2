@@ -41,7 +41,6 @@ module.exports = function(Payment) {
       if (err) {
         cb(responseHelper.buildError(`error inserting: ${err}`), 500);
       } else {
-        console.log(`done creating payments for ${monthYear}`);
         cb(null, responseHelper.buildResponse(res, 201));
       }
     });
