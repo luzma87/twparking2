@@ -5,72 +5,67 @@ const responseHelper = require('../responseHelper');
 module.exports = function(Payment) {
   Payment.disableRemoteMethodByName('deleteById');
 
-  const totalOwner = (duenio) => {
+  const totalOwner = (owner) => {
     let total = 0;
-    duenio.places().map(place => {
+    owner.places().map(place => {
       total += place.price;
     });
     return total;
   };
 
-  const prepareOwner = (owner, month, year) => {
+  const getExistingPayments = async (month, year, cb) => {
+    let existingPaymentsFilter = { where: { month: month, year: year } };
+    return await Payment.find(existingPaymentsFilter).catch(err => {
+      cb(responseHelper.buildError(`error finding payments: ${err}`), 500);
+    });
+  };
+
+  function prepareOwner(owner, month, year) {
     return {
       ownerId: owner.id,
       amount: totalOwner(owner),
       month: month,
       year: year,
+      date: null,
     };
-  };
+  }
 
-  const prepareOwners = (owners, month, year) => {
+  function insertPayments(owners, month, year, cb) {
+    let monthYear = `${month} ${year}`;
     let paymentsInsert = [];
     owners.map(owner => {
-      paymentsInsert.push(prepareOwner(owner, month, year));
+      const ownerInsert = prepareOwner(owner, month, year);
+      paymentsInsert.push(ownerInsert);
     });
-    return paymentsInsert;
-  };
-
-  let insertPayments = function(monthYear, Owner, cb, month, year) {
-    console.log(`no payments found for ${monthYear}`);
-    let ownersFilter = {where: {estaActivo: true}, include: ['places']};
-
-    Owner.find(ownersFilter, (err, owners) => {
+    Payment.create(paymentsInsert, (err, res) => {
       if (err) {
-        cb(responseHelper.buildError(`error finding owners: ${err}`), 500);
+        cb(responseHelper.buildError(`error inserting: ${err}`), 500);
+      } else {
+        console.log(`done creating payments for ${monthYear}`);
+        cb(null, responseHelper.buildResponse(res, 201));
       }
-      let pagosPuestoInsertar = prepareOwners(owners, month, year);
-      Payment.create(pagosPuestoInsertar, (err) => {
-        if (err) {
-          cb(responseHelper.buildError(`error inserting: ${err}`), 500);
-        } else {
-          console.log(`done creating payments for ${monthYear}`);
-          cb(null, responseHelper.buildResponse('inserted', 201));
-        }
-      });
     });
-  };
+  }
 
-  Payment.createForMonth = (params, cb) => {
+  Payment.createForMonth = async (params, cb) => {
     const month = params.month.toUpperCase();
     const year = params.year;
-    let Owner = Payment.app.models.Owner;
     let monthYear = `${month} ${year}`;
+    let Owner = Payment.app.models.Owner;
 
-    console.log(`create payments for ${monthYear}`);
+    const existingPayments = await getExistingPayments(month, year, cb);
+    if (existingPayments.length > 0) {
+      let message = `payments already found for ${monthYear}: nothing done`;
+      cb(null, responseHelper.buildResponse(message));
+      return;
+    }
 
-    console.log(`finding payments for ${monthYear}`);
-    Payment.find({where: {month: month, year: year}}, (err, payments) => {
-      if (err) {
-        cb(responseHelper.buildError(`${month} is not a month ${err}`));
-      } else {
-        if (payments.length > 0) {
-          console.log(`payments already found for ${monthYear}: nothing done`);
-          cb(null, responseHelper.buildResponse('nothing done'));
-        } else {
-          insertPayments(monthYear, Owner, cb, month, year);
-        }
-      }
+    let ownersFilter = { where: { isActive: true }, include: ['places'] };
+    let owners = await Owner.find(ownersFilter).catch(err => {
+      cb(responseHelper.buildError(`error finding owners: ${err}`), 500);
     });
+
+    insertPayments(owners, month, year, cb);
   };
 
   Payment.remoteMethod('createForMonth', {
@@ -81,7 +76,7 @@ module.exports = function(Payment) {
       status: 201,
     },
     accepts: [
-      {arg: 'data', type: 'object', 'http': {source: 'body'}},
+      { arg: 'data', type: 'object', 'http': { source: 'body' } },
     ],
     returns: {
       arg: 'result',

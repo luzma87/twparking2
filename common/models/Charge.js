@@ -64,14 +64,14 @@ module.exports = function(Charge) {
     };
   };
 
-  const insertCharges = async (activePeople, year, month, amount, cb) => {
+  const insertCharges = (activePeople, year, month, amount, cb) => {
     let chargesInsert = [];
     activePeople.map(person => {
       let charge = prepareCharge(year, month, amount, person);
       chargesInsert.push(charge);
     });
 
-    await Charge.create(chargesInsert, (err, res) => {
+    Charge.create(chargesInsert, (err, res) => {
       if (err) {
         cb(responseHelper.buildError(`error inserting charges: ${err}`), 500);
       } else {
