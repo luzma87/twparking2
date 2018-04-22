@@ -3,7 +3,7 @@
   "options": {
     "idInjection": false,
     "postgresql": {
-      "schema": "public",
+      "schema": "public", 
       "table": "building"
     }
   },
