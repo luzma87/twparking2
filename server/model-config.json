@@ -14,7 +14,8 @@
     ]
   },
   "User": {
-    "dataSource": "twparking"
+    "dataSource": "twparking",
+    "public": false
   },
   "AccessToken": {
     "dataSource": "twparking",
