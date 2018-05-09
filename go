@@ -74,6 +74,11 @@ function task_clear_port {
   kill -9 ${port}
 }
 
+function task_heroku_logs {
+  echo "${misc_fg}Showing logs for staging heroku app${normal_fg}"
+  heroku logs --app twparking-staging --tail
+}
+
 function task_build_models {
   echo "${loopback_fg}discovering and finding postgres models. Paste the following in server/model-config.json${normal_fg}"
   node bin/discover-and-build-models.js
@@ -83,6 +88,7 @@ function task_help {
   help_message="usage: ./go"
   help_message+=" ${misc_fg}colors${normal_fg}"
   help_message+=" | ${misc_fg}clear_port${normal_fg}"
+  help_message+=" | ${misc_fg}heroku_logs${normal_fg}"
   help_message+=" | ${loopback_fg}build_models${normal_fg}"
   help_message+=" | ${start_fg}start${normal_fg}"
   help_message+=" | ${start_fg}start_debug${normal_fg}"
@@ -97,6 +103,7 @@ function execute_task {
   case ${task} in
     colors) task_color ;;
     clear_port) task_clear_port ;;
+    heroku_logs) task_heroku_logs ;;
     build_models) task_build_models ;;
     start) task_start ;;
     start_debug) task_start_debug ;;
