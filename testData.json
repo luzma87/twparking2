@@ -1,0 +1,41 @@
+{
+  "ids": {
+    "User": 1,
+    "AccessToken": 1,
+    "ACL": 1,
+    "RoleMapping": 1,
+    "Role": 1,
+    "OtherCharge": 1,
+    "Params": 1,
+    "BuildingDistance": 1,
+    "Person": 1,
+    "Owner": 1,
+    "Car": 1,
+    "Payment": 3,
+    "Building": 1,
+    "Charge": 1,
+    "Place": 1,
+    "ParkingAssignment": 1
+  },
+  "models": {
+    "User": {},
+    "AccessToken": {},
+    "ACL": {},
+    "RoleMapping": {},
+    "Role": {},
+    "OtherCharge": {},
+    "Params": {},
+    "BuildingDistance": {},
+    "Person": {},
+    "Owner": {},
+    "Car": {},
+    "Payment": {
+      "1": "{\"amount\":0,\"date\":null,\"month\":\"ENERO\",\"year\":2018,\"ownerId\":1,\"id\":1}",
+      "2": "{\"amount\":0,\"date\":null,\"month\":\"ENERO\",\"year\":2018,\"ownerId\":2,\"id\":2}"
+    },
+    "Building": {},
+    "Charge": {},
+    "Place": {},
+    "ParkingAssignment": {}
+  }
+}

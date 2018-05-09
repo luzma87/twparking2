@@ -39,6 +39,21 @@
         "nullable": "NO"
       }
     },
+    "amountPayed": {
+      "type": "number",
+      "required": false,
+      "length": null,
+      "precision": 53,
+      "scale": null,
+      "postgresql": {
+        "columnName": "amount_payed",
+        "dataType": "float",
+        "dataLength": null,
+        "dataPrecision": 53,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
     "date": {
       "type": "Date",
       "required": false,
