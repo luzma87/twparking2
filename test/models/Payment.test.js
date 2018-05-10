@@ -18,7 +18,7 @@ describe('Payment', () => {
     };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
     });
 
     afterEach((done) => {
@@ -29,82 +29,76 @@ describe('Payment', () => {
     });
 
     it('returns 200 and message when charges exist for given month and year',
-      (done) => {
+      async () => {
         const findPaymentStub = sandbox.stub(Payment, 'find')
           .returns(createPromise([{}]));
 
-        Payment.createForMonth({month, year}, (err, success) => {
-          expect(findPaymentStub).to.have.been
-            .calledWith({where: {month: month, year: year}});
-          expect(err).to.be.null;
-          expect(success).to.deep.equal({
-            status: 200,
-            result: 'payments already found for ENERO 2018: nothing done',
-          });
-          done();
+        const res = await Payment.createForMonth({month, year}).catch(() => {
+        });
+        expect(findPaymentStub).to.have.been
+          .calledWith({where: {month: month, year: year}});
+        expect(res).to.deep.equal({
+          status: 200,
+          result: 'payments already found for ENERO 2018: nothing done',
         });
       });
 
     it('returns 200 and message when payments exist for given month and year',
-      (done) => {
+      async () => {
         const findPaymentStub = sandbox.stub(Payment, 'find')
           .returns(createPromise([{}]));
 
-        Payment.createForMonth({month, year}, (err, success) => {
-          expect(findPaymentStub).to.have.been
-            .calledWith({where: {month: month, year: year}});
-          expect(err).to.be.null;
-          expect(success).to.deep.equal({
-            status: 200,
-            result: 'payments already found for ENERO 2018: nothing done',
-          });
-          done();
+        const res = await Payment.createForMonth({month, year}).catch(() => {
+        });
+        expect(findPaymentStub).to.have.been
+          .calledWith({where: {month: month, year: year}});
+        expect(res).to.deep.equal({
+          status: 200,
+          result: 'payments already found for ENERO 2018: nothing done',
         });
       });
 
     it(
       'creates new payments with default value when no other payments exist',
-      (done) => {
+      async () => {
         const findPaymentStub = sandbox.stub(Payment, 'find')
           .returns(createPromise([]));
-        let owner1 = {id: 1, places: ()=>[]};
-        let owner2 = {id: 2, places: ()=>[]};
+        let owner1 = {id: 1, places: () => []};
+        let owner2 = {id: 2, places: () => []};
         const findOwnersStub = sandbox.stub(Owner, 'find')
           .returns(createPromise([owner1, owner2]));
 
-        Payment.createForMonth({month, year}, (err, success) => {
-          expect(findPaymentStub).to.have.been
-            .calledWith({where: {month: month, year: year}});
-          expect(findOwnersStub).to.have.been
-            .calledWith({where: {isActive: true}, include: ['places']});
-
-          expect(err).to.be.null;
-          let expectedResult = [
-            {
-              id: 1,
-              year: year,
-              month: month,
-              amount: 0,
-              ownerId: 1,
-              date: null,
-            },
-            {
-              id: 2,
-              year: year,
-              month: month,
-              amount: 0,
-              ownerId: 2,
-              date: null,
-            },
-          ];
-          expect(success).to.include({
-            status: 201,
-          });
-          expect(success.result.length).to.equal(2);
-          expect(success.result[0].__data).to.deep.equal(expectedResult[0]);
-          expect(success.result[1].__data).to.deep.equal(expectedResult[1]);
-          done();
+        const res = Payment.createForMonth({month, year}).catch(() => {
         });
+        expect(findPaymentStub).to.have.been
+          .calledWith({where: {month: month, year: year}});
+        expect(findOwnersStub).to.have.been
+          .calledWith({where: {isActive: true}, include: ['places']});
+
+        let expectedResult = [
+          {
+            id: 1,
+            year: year,
+            month: month,
+            amount: 0,
+            ownerId: 1,
+            date: null,
+          },
+          {
+            id: 2,
+            year: year,
+            month: month,
+            amount: 0,
+            ownerId: 2,
+            date: null,
+          },
+        ];
+        expect(res).to.include({
+          status: 201,
+        });
+        expect(res.result.length).to.equal(2);
+        expect(res.result[0].__data).to.deep.equal(expectedResult[0]);
+        expect(res.result[1].__data).to.deep.equal(expectedResult[1]);
       });
   });
 });

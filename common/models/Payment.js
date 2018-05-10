@@ -13,14 +13,14 @@ module.exports = function(Payment) {
     return total;
   };
 
-  const getExistingPayments = async (month, year, cb) => {
-    let existingPaymentsFilter = { where: { month: month, year: year } };
+  const getExistingPayments = async (month, year) => {
+    let existingPaymentsFilter = {where: {month: month, year: year}};
     return await Payment.find(existingPaymentsFilter).catch(err => {
-      cb(responseHelper.buildError(`error finding payments: ${err}`), 500);
+      return responseHelper.buildError(`error finding payments: ${err}`, 500);
     });
   };
 
-  function prepareOwner(owner, month, year) {
+  const prepareOwner = (owner, month, year) => {
     return {
       ownerId: owner.id,
       amount: totalOwner(owner),
@@ -28,23 +28,19 @@ module.exports = function(Payment) {
       year: year,
       date: null,
     };
-  }
+  };
 
-  function insertPayments(owners, month, year, cb) {
-    let monthYear = `${month} ${year}`;
+  const insertPayments = async (owners, month, year) => {
     let paymentsInsert = [];
     owners.map(owner => {
       const ownerInsert = prepareOwner(owner, month, year);
       paymentsInsert.push(ownerInsert);
     });
-    Payment.create(paymentsInsert, (err, res) => {
-      if (err) {
-        cb(responseHelper.buildError(`error inserting: ${err}`), 500);
-      } else {
-        cb(null, responseHelper.buildResponse(res, 201));
-      }
+    const res = await Payment.create(paymentsInsert).catch(err => {
+      return responseHelper.buildError(`error inserting: ${err}`, 500);
     });
-  }
+    return responseHelper.buildResponse(res, 201);
+  };
 
   Payment.createForMonth = async (params, cb) => {
     const month = params.month.toUpperCase();
@@ -52,19 +48,17 @@ module.exports = function(Payment) {
     let monthYear = `${month} ${year}`;
     let Owner = Payment.app.models.Owner;
 
-    const existingPayments = await getExistingPayments(month, year, cb);
+    const existingPayments = await getExistingPayments(month, year);
     if (existingPayments.length > 0) {
       let message = `payments already found for ${monthYear}: nothing done`;
-      cb(null, responseHelper.buildResponse(message));
-      return;
+      return responseHelper.buildResponse(message);
     }
 
-    let ownersFilter = { where: { isActive: true }, include: ['places'] };
+    let ownersFilter = {include: ['places'], where: {isActive: true}};
     let owners = await Owner.find(ownersFilter).catch(err => {
-      cb(responseHelper.buildError(`error finding owners: ${err}`), 500);
+      return responseHelper.buildError(`error finding owners: ${err}`, 500);
     });
-
-    insertPayments(owners, month, year, cb);
+    await insertPayments(owners, month, year);
   };
 
   Payment.remoteMethod('createForMonth', {
@@ -75,7 +69,7 @@ module.exports = function(Payment) {
       status: 201,
     },
     accepts: [
-      { arg: 'data', type: 'object', 'http': { source: 'body' } },
+      {arg: 'data', type: 'object', 'http': {source: 'body'}},
     ],
     returns: {
       arg: 'result',
