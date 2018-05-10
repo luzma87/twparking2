@@ -13,7 +13,7 @@
     "Car": 1,
     "Payment": 1,
     "Building": 1,
-    "Charge": 3,
+    "Charge": 4,
     "Place": 1,
     "ParkingAssignment": 1
   },
@@ -32,8 +32,9 @@
     "Payment": {},
     "Building": {},
     "Charge": {
-      "1": "{\"year\":2018,\"month\":\"ENERO\",\"amountDefault\":15,\"amountPerson\":15,\"personId\":1,\"amountPayed\":0,\"date\":null,\"id\":1}",
-      "2": "{\"year\":2018,\"month\":\"ENERO\",\"amountDefault\":15,\"amountPerson\":15,\"personId\":2,\"amountPayed\":0,\"date\":null,\"id\":2}"
+      "1": "{\"year\":2018,\"month\":\"ENERO\",\"amountDefault\":11.83,\"amountPerson\":11.83,\"personId\":1,\"amountPayed\":0,\"date\":null,\"id\":1}",
+      "2": "{\"year\":2018,\"month\":\"ENERO\",\"amountDefault\":11.83,\"amountPerson\":11.83,\"personId\":2,\"amountPayed\":0,\"date\":null,\"id\":2}",
+      "3": "{\"year\":2018,\"month\":\"ENERO\",\"amountDefault\":11.83,\"amountPerson\":11.83,\"personId\":3,\"amountPayed\":0,\"date\":null,\"id\":3}"
     },
     "Place": {},
     "ParkingAssignment": {}

@@ -1,5 +1,6 @@
 'use strict';
 
+const _ = require('lodash');
 const responseHelper = require('../responseHelper');
 
 module.exports = function(Charge) {
@@ -56,8 +57,8 @@ module.exports = function(Charge) {
     return {
       year: year,
       month: month,
-      amountDefault: amount,
-      amountPerson: amount,
+      amountDefault: _.round(amount, 2),
+      amountPerson: _.round(amount, 2),
       amountPayed: 0,
       personId: person.id,
       date: null,
