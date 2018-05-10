@@ -20,7 +20,7 @@ describe('Charge', () => {
     };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
     });
 
     afterEach((done) => {
@@ -30,27 +30,24 @@ describe('Charge', () => {
       sandbox.restore();
     });
 
-    it('returns 200 and message when charges exist for given month and year',
-      (done) => {
-        const findChargeStub = sandbox.stub(Charge, 'find')
-          .returns(createPromise([{}]));
+    it('returns 200 and message when charges exist ' +
+      'for given month and year', async () => {
+      const findChargeStub = sandbox.stub(Charge, 'find')
+        .returns(createPromise([{}]));
 
-        Charge.createForMonth({month, year}, (err, success) => {
-          expect(findChargeStub).to.have.been
-            .calledWith({where: {month: month, year: year}});
-          expect(err).to.be.null;
-          expect(success).to.deep.equal({
-            status: 200,
-            result: 'charges already found for ENERO 2018: nothing done',
-          });
-          done();
-        });
+      const res = await Charge.createForMonth({month, year}).catch(() => {
       });
+      expect(findChargeStub).to.have.been
+        .calledWith({where: {month: month, year: year}});
+      expect(res).to.deep.equal({
+        status: 200,
+        result: 'charges already found for ENERO 2018: nothing done',
+      });
+    });
 
     it(
-      'creates new charges with default value ' +
-      'when no other charges exist and there are no people from other banks',
-      (done) => {
+      'creates new charges with default value when no other charges exist ' +
+      'and there are no people from other banks', async () => {
         const personMock = sandbox.mock(Person);
         const filterOtherBanks = {where: {preferredPaymentMethod: 'OTRO'}};
         const filterAllActive = {where: {isActive: true}};
@@ -71,48 +68,48 @@ describe('Charge', () => {
           .returns(createPromise([place, place, place]));
         const amount = (place.price * 3) / 2;
 
-        Charge.createForMonth({month, year}, (err, success) => {
-          expect(findChargeStub).to.have.been
-            .calledWith({where: {month: month, year: year}});
-          expect(otherChargesStub).to.have.been
-            .calledWith({where: {isActive: true}});
-          expect(placeStub).to.have.been
-            .calledWith({where: {isActive: true}});
-
-          personMock.restore();
-          personMock.verify();
-
-          expect(err).to.be.null;
-          let expectedResult = [
-            {
-              id: 1,
-              year: year,
-              month: month,
-              amountDefault: amount,
-              amountPerson: amount,
-              amountPayed: 0,
-              personId: 1,
-              date: null,
-            },
-            {
-              id: 2,
-              year: year,
-              month: month,
-              amountDefault: amount,
-              amountPerson: amount,
-              amountPayed: 0,
-              personId: 2,
-              date: null,
-            },
-          ];
-          expect(success).to.include({
-            status: 201,
-          });
-          expect(success.result.length).to.equal(2);
-          expect(success.result[0].__data).to.deep.equal(expectedResult[0]);
-          expect(success.result[1].__data).to.deep.equal(expectedResult[1]);
-          done();
+        const res = await Charge.createForMonth({month, year}).catch(() => {
         });
+        console.log(res);
+
+        expect(findChargeStub).to.have.been
+          .calledWith({where: {month: month, year: year}});
+        expect(otherChargesStub).to.have.been
+          .calledWith({where: {isActive: true}});
+        expect(placeStub).to.have.been
+          .calledWith({where: {isActive: true}});
+
+        personMock.restore();
+        personMock.verify();
+
+        let expectedResult = [
+          {
+            id: 1,
+            year: year,
+            month: month,
+            amountDefault: amount,
+            amountPerson: amount,
+            amountPayed: 0,
+            personId: 1,
+            date: null,
+          },
+          {
+            id: 2,
+            year: year,
+            month: month,
+            amountDefault: amount,
+            amountPerson: amount,
+            amountPayed: 0,
+            personId: 2,
+            date: null,
+          },
+        ];
+        expect(res).to.include({
+          status: 201,
+        });
+        expect(res.result.length).to.equal(2);
+        expect(res.result[0].__data).to.deep.equal(expectedResult[0]);
+        expect(res.result[1].__data).to.deep.equal(expectedResult[1]);
       });
   });
 });

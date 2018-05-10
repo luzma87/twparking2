@@ -1,59 +1,55 @@
 'use strict';
 
-module.exports = async (app) => {
-  const Person = app.models.Person;
-  const Role = app.models.Role;
-  const RoleMapping = app.models.RoleMapping;
-
+module.getAdmins = async function(Person) {
   console.log('finding existing admins...');
-  let admins = await Person.find({where: {isAdmin: true}}).catch(err => {
+  return await Person.find({where: {isAdmin: true}}).catch(err => {
     console.log("ERROR finding admins", err);
   });
-
-  if (admins.length === 0) {
-    console.log('none found... creating new...');
-    const admin = await Person.create({
-      username: 'luzma',
-      name: 'Luz',
-      isAdmin: true,
-      isActive: true,
-      idNumber: '1234567890',
-      email: 'luzma_87@yahoo.com',
-      password: 'superSafe',
-    }).catch(err => {
-      console.log("ERROR creating admin", err);
-    });
-    admins = [admin];
-  } else {
-    console.log('admins already found');
-  }
-
+};
+module.createAdmin = async function(Person) {
+  console.log('none found... creating new...');
+  const admin = await Person.create({
+    username: 'luzma',
+    name: 'Luz',
+    isAdmin: true,
+    isActive: true,
+    idNumber: '1234567890',
+    email: 'luzma_87@yahoo.com',
+    password: 'superSafe',
+  }).catch(err => {
+    console.log("ERROR creating admin", err);
+  });
+  return [admin];
+};
+module.getRoleAdmin = async function(Role) {
   console.log('finding admin role');
-  let roleAdmin = await Role.find({where: {name: 'admin'}}).catch(err => {
+  return await Role.find({where: {name: 'admin'}}).catch(err => {
     console.log("ERROR finding admin role", err);
   });
-  if (roleAdmin.length === 0) {
-    console.log('none found... creating new...');
-    roleAdmin = await Role.create({name: 'admin'}).catch(err => {
-      console.log("ERROR creating admin role", err);
-    });
-    roleAdmin = [roleAdmin];
-  }
-
+};
+module.createRoleAdmin = async function(Role) {
+  console.log('none found... creating new...');
+  const roleAdmin = await Role.create({name: 'admin'}).catch(err => {
+    console.log("ERROR creating admin role", err);
+  });
+  return [roleAdmin];
+};
+module.getRoleUser = async function(Role) {
   console.log('finding user role');
-  let roleUser = await Role.find({where: {name: 'user'}}).catch(err => {
+  return await Role.find({where: {name: 'user'}}).catch(err => {
     console.log("ERROR finding user role", err);
   });
-  if (roleUser.length === 0) {
-    console.log('none found... creating new...');
-    roleUser = await Role.create({name: 'user'}).catch(err => {
-      console.log("ERROR creating user role", err);
-    });
-    roleUser = [roleUser];
-  }
-
+};
+module.insertRoleUser = async function(Role) {
+  console.log('none found... creating new...');
+  const roleUser = await Role.create({name: 'user'}).catch(err => {
+    console.log("ERROR creating user role", err);
+  });
+  return [roleUser];
+};
+module.getRoleMappings = async function(RoleMapping, admins, roleAdmin) {
   console.log('finding admin mappings');
-  let roleMappings = await RoleMapping.find({
+  return await RoleMapping.find({
     where: {
       principalId: admins[0].id,
       roleId: roleAdmin[0].id,
@@ -61,44 +57,79 @@ module.exports = async (app) => {
   }).catch(err => {
     console.log("ERROR finding admin mapping", err);
   });
-
-  if (roleMappings.length === 0) {
-    console.log('none found... creating new...');
-    let mapping = await roleAdmin[0].principals.create({
-      principalType: RoleMapping.USER,
-      principalId: admins[0].id,
-    }).catch(err => {
-      console.log("ERROR creating admin mapping", err);
-    });
-  }
-
-  console.log('finding existing admins...');
-  let nonAdmins = await Person.find({where: {isAdmin: false}}).catch(err => {
+};
+module.insertRoleMappings = async function(roleAdmin, RoleMapping, admins) {
+  console.log('none found... creating new...');
+  return await roleAdmin[0].principals.create({
+    principalType: RoleMapping.USER,
+    principalId: admins[0].id,
+  }).catch(err => {
+    console.log("ERROR creating admin mapping", err);
+  });
+};
+module.getNonAdmins = async function(Person) {
+  console.log('finding existing non admins...');
+  return await Person.find({where: {isAdmin: false}}).catch(err => {
     console.log("ERROR finding non admins", err);
   });
-
+};
+module.getRoleUserMappings = async function(RoleMapping, roleUser) {
   console.log('finding user mappings');
-  let roleUserMappings = await RoleMapping.find({
+  return await RoleMapping.find({
     where: {
       roleId: roleUser[0].id,
     },
   }).catch(err => {
     console.log("ERROR finding user mapping", err);
   });
+};
+module.insertRoleUserMappings = async function(nonAdmins, RoleMapping, roleUser) {
+  console.log('none found... creating new...');
+  const mappingsCreate = [];
+  nonAdmins.map(user => {
+    const mapping = {
+      principalType: RoleMapping.USER,
+      principalId: user.id,
+      roleId: roleUser[0].id,
+    };
+    mappingsCreate.push(mapping);
+  });
+  await RoleMapping.create(mappingsCreate).catch(err => {
+    console.log("ERROR creating user mappings", err);
+  });
+};
+module.exports = async (app) => {
+  if (app.settings.env !== 'test') {
+    const Person = app.models.Person;
+    const Role = app.models.Role;
+    const RoleMapping = app.models.RoleMapping;
 
-  if (roleUserMappings.length === 0) {
-    console.log('none found... creating new...');
-    const mappingsCreate = [];
-    nonAdmins.map(user => {
-      const mapping = {
-        principalType: RoleMapping.USER,
-        principalId: user.id,
-        roleId: roleUser[0].id,
-      };
-      mappingsCreate.push(mapping);
-    });
-    let mappings = await RoleMapping.create(mappingsCreate).catch(err => {
-      console.log("ERROR creating user mappings", err);
-    });
+    let admins = await this.getAdmins(Person);
+    if (admins.length === 0) {
+      admins = await this.createAdmin(Person, admins);
+    } else {
+      console.log('admins already found');
+    }
+
+    let roleAdmin = await this.getRoleAdmin(Role);
+    if (roleAdmin.length === 0) {
+      roleAdmin = await this.createRoleAdmin(Role);
+    }
+
+    let roleUser = await this.getRoleUser(Role);
+    if (roleUser.length === 0) {
+      roleUser = await this.insertRoleUser(Role);
+    }
+    let roleMappings = await this.getRoleMappings(RoleMapping, admins, roleAdmin);
+    if (roleMappings.length === 0) {
+      await this.insertRoleMappings(roleAdmin, RoleMapping, admins);
+    }
+
+    let nonAdmins = await this.getNonAdmins(Person);
+
+    let roleUserMappings = await this.getRoleUserMappings(RoleMapping, roleUser);
+    if (roleUserMappings.length === 0) {
+      await this.insertRoleUserMappings(nonAdmins, RoleMapping, roleUser);
+    }
   }
 };

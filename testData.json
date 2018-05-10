@@ -11,9 +11,9 @@
     "Person": 1,
     "Owner": 1,
     "Car": 1,
-    "Payment": 3,
+    "Payment": 1,
     "Building": 1,
-    "Charge": 1,
+    "Charge": 3,
     "Place": 1,
     "ParkingAssignment": 1
   },
@@ -29,12 +29,12 @@
     "Person": {},
     "Owner": {},
     "Car": {},
-    "Payment": {
-      "1": "{\"amount\":0,\"date\":null,\"month\":\"ENERO\",\"year\":2018,\"ownerId\":1,\"id\":1}",
-      "2": "{\"amount\":0,\"date\":null,\"month\":\"ENERO\",\"year\":2018,\"ownerId\":2,\"id\":2}"
-    },
+    "Payment": {},
     "Building": {},
-    "Charge": {},
+    "Charge": {
+      "1": "{\"year\":2018,\"month\":\"ENERO\",\"amountDefault\":15,\"amountPerson\":15,\"personId\":1,\"amountPayed\":0,\"date\":null,\"id\":1}",
+      "2": "{\"year\":2018,\"month\":\"ENERO\",\"amountDefault\":15,\"amountPerson\":15,\"personId\":2,\"amountPayed\":0,\"date\":null,\"id\":2}"
+    },
     "Place": {},
     "ParkingAssignment": {}
   }
