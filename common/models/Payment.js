@@ -42,7 +42,7 @@ module.exports = function(Payment) {
     return responseHelper.buildResponse(res, 201);
   };
 
-  Payment.createForMonth = async (params, cb) => {
+  Payment.createForMonth = async (params) => {
     const month = params.month.toUpperCase();
     const year = params.year;
     let monthYear = `${month} ${year}`;
