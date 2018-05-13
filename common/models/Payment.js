@@ -58,7 +58,7 @@ module.exports = function(Payment) {
     let owners = await Owner.find(ownersFilter).catch(err => {
       return responseHelper.buildError(`error finding owners: ${err}`, 500);
     });
-    await insertPayments(owners, month, year);
+    return await insertPayments(owners, month, year);
   };
 
   Payment.remoteMethod('createForMonth', {
